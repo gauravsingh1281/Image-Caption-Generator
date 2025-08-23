@@ -10,5 +10,5 @@ const authenticatedUser = require("../middlewares/auth.middleware")
 
 
 userRouter.get("/all-uploaded-img", authenticatedUser, userController.getAllUploadedImage);
-userRouter.post("/uploadImage", authenticatedUser, upload.single("imageFile"), userController.uploadImageAndGenerateCaption)
+userRouter.post("/upload-image", authenticatedUser, upload.single("imageFile"), userController.uploadImageAndGenerateCaption)
 module.exports = userRouter;

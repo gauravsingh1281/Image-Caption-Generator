@@ -4,8 +4,23 @@ const uploadFile = require("../services/imageUpload.service");
 const path = require("path");
 
 const getAllUploadedImage = async (req, res) => {
-    const userdata =
-        res.send("Image data");
+    const userID = req.user.id;
+    try {
+        const authorizedUserData = await User.findById(userID);
+        const uploadedImg = authorizedUserData.uploadedImage;
+        res.status(200).json({
+            message: "Uploaded images retrieved successfully.",
+            images: uploadedImg
+        });
+
+    } catch (error) {
+        console.error("Error retrieving uploaded images:", error);
+        res.status(500).json({
+            message: "An error occurred while retrieving uploaded images.",
+            error: error.message
+        });
+    }
+
 }
 
 const uploadImageAndGenerateCaption = async (req, res) => {
