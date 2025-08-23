@@ -1,0 +1,476 @@
+{
+    "info": {
+        "_postman_id": "12345678-1234-5678-9abc-123456789abc",
+        "name": "Image Caption Generator API",
+        "description": "Complete API collection for Image Caption Generator with authentication and image upload functionality",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Register User",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function () {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains success message\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.message).to.include(\"registered successfully\");",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains user data\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.user).to.be.an('object');",
+                                    "    pm.expect(jsonData.user.email).to.exist;",
+                                    "});",
+                                    "",
+                                    "// Save token from cookie for future requests",
+                                    "pm.test(\"Token is set in cookie\", function () {",
+                                    "    pm.expect(pm.cookies.has('token')).to.be.true;",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"TestPassword123!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "register"
+                            ]
+                        },
+                        "description": "Register a new user account"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login User",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains success message\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.message).to.include(\"logged in successfully\");",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains user data\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.user).to.be.an('object');",
+                                    "    pm.expect(jsonData.user.email).to.exist;",
+                                    "});",
+                                    "",
+                                    "// Save token from cookie for future requests",
+                                    "pm.test(\"Token is set in cookie\", function () {",
+                                    "    pm.expect(pm.cookies.has('token')).to.be.true;",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"TestPassword123!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "description": "Login with existing user credentials"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Register - Invalid Email",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 400 or 500\", function () {",
+                                    "    pm.expect(pm.response.code).to.be.oneOf([400, 500]);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains error message\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.message).to.exist;",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"invalid-email\",\n    \"password\": \"TestPassword123!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "register"
+                            ]
+                        },
+                        "description": "Test registration with invalid email format"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login - Wrong Credentials",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 401\", function () {",
+                                    "    pm.response.to.have.status(401);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains error message\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.message).to.include(\"Invalid email or password\");",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"WrongPassword123!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "description": "Test login with wrong credentials"
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Authentication endpoints for user registration and login"
+        },
+        {
+            "name": "Image Management",
+            "item": [
+                {
+                    "name": "Upload Image and Generate Caption",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains success message\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.message).to.include(\"successfully\");",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains image URL\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.imageUrl).to.exist;",
+                                    "    pm.expect(jsonData.imageUrl).to.be.a('string');",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains caption\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.caption).to.exist;",
+                                    "    pm.expect(jsonData.caption).to.be.a('string');",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response time is less than 30000ms\", function () {",
+                                    "    pm.expect(pm.response.responseTime).to.be.below(30000);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "imageFile",
+                                    "type": "file",
+                                    "src": [],
+                                    "description": "Select an image file (JPEG, PNG, etc.)"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/user/upload-image",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "user",
+                                "upload-image"
+                            ]
+                        },
+                        "description": "Upload an image file and generate AI caption using Gemini API. Requires authentication."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Uploaded Images",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains success message\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.message).to.include(\"successfully\");",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains images array\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.images).to.be.an('array');",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Each image has required properties\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    if (jsonData.images.length > 0) {",
+                                    "        jsonData.images.forEach(function(image) {",
+                                    "            pm.expect(image.imageUrl).to.exist;",
+                                    "            pm.expect(image.caption).to.exist;",
+                                    "        });",
+                                    "    }",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/user/all-uploaded-img",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "user",
+                                "all-uploaded-img"
+                            ]
+                        },
+                        "description": "Retrieve all uploaded images with their generated captions for the authenticated user"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Upload Image - No Authentication",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 401\", function () {",
+                                    "    pm.response.to.have.status(401);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains unauthorized message\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.message).to.include(\"Unauthorized\");",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "imageFile",
+                                    "type": "file",
+                                    "src": []
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url_no_auth}}/api/user/upload-image",
+                            "host": [
+                                "{{base_url_no_auth}}"
+                            ],
+                            "path": [
+                                "api",
+                                "user",
+                                "upload-image"
+                            ]
+                        },
+                        "description": "Test upload without authentication - should fail with 401"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Images - No Authentication",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 401\", function () {",
+                                    "    pm.response.to.have.status(401);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response contains unauthorized message\", function () {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.message).to.include(\"Unauthorized\");",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url_no_auth}}/api/user/all-uploaded-img",
+                            "host": [
+                                "{{base_url_no_auth}}"
+                            ],
+                            "path": [
+                                "api",
+                                "user",
+                                "all-uploaded-img"
+                            ]
+                        },
+                        "description": "Test get images without authentication - should fail with 401"
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Image upload and management endpoints"
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "// Global pre-request script",
+                    "console.log('Request URL:', pm.request.url.toString());"
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "// Global test script",
+                    "pm.test(\"Response time is reasonable\", function () {",
+                    "    pm.expect(pm.response.responseTime).to.be.below(60000);",
+                    "});",
+                    "",
+                    "pm.test(\"Response is JSON\", function () {",
+                    "    pm.response.to.be.json;",
+                    "});"
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:3000",
+            "type": "string"
+        },
+        {
+            "key": "base_url_no_auth",
+            "value": "http://localhost:3000",
+            "type": "string"
+        }
+    ]
+}
