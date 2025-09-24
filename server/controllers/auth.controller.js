@@ -11,7 +11,7 @@ const register = async (req, res) => {
         const createdUser = await User.create({
             email, password: hashedPassword
         })
-        const token = jwt.sign({ email: createdUser.email, id: createdUser._id }, process.env.JWT_SECRET_KEY);
+        const token = jwt.sign({ email: createdUser.email, id: createdUser._id }, process.env.JWT_SECRET_KEY,);
         res.cookie("token", token);
         res.status(201).json({ message: "User registered successfully.", user: createdUser });
     } catch (error) {
@@ -33,4 +33,13 @@ const login = async (req, res) => {
         res.status(500).json({ message: "An error occurred while logging in the user.", error: error.message });
     }
 }
-module.exports = { register, login };
+
+const logout = async (req, res) => {
+    res.clearCookies("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+    });
+    res.status(200).json({ message: "User logged out successfully" });
+};
+module.exports = { register, login, logout };
