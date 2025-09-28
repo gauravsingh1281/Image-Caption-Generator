@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadImageAndGenerateCaption, clearError } from "../../features/captions/captionSlice";
+import { uploadImageAndGenerateCaption, clearError } from "../../features/auth/authSlice";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const UploadImage = () => {
     const { register, handleSubmit, reset, formState: { errors }, watch } = useForm();
     const dispatch = useDispatch();
-    const { loading, error } = useSelector((state) => state.captions);
+    const navigate = useNavigate();
+    const { loading, error } = useSelector((state) => state.auth);
     const [dragActive, setDragActive] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
 
@@ -60,6 +62,12 @@ const UploadImage = () => {
             toast.success('Caption generated successfully!');
             reset();
             setPreviewUrl(null);
+
+            // Show redirect message and redirect to dashboard
+            toast.info('Redirecting to dashboard...', { autoClose: 1500 });
+            setTimeout(() => {
+                navigate('/dashboard');
+            }, 2000); // 2 second delay to show success message
         } catch (error) {
             // Error is handled by Redux state
             console.log("Failed to upload image and generate caption", error);
@@ -101,6 +109,19 @@ const UploadImage = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl mx-auto">
+                {/* Back to Dashboard Button */}
+                <div className="mb-6">
+                    <button
+                        onClick={() => navigate('/dashboard')}
+                        className="flex items-center space-x-2 text-indigo-600 hover:text-indigo-800 transition-colors duration-200"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        <span className="font-medium">Back to Dashboard</span>
+                    </button>
+                </div>
+
                 <div className="text-center mb-8">
                     <h1 className="text-4xl font-bold text-gray-900 mb-4">
                         AI Image Caption Generator
@@ -131,8 +152,8 @@ const UploadImage = () => {
                         {/* File Upload Area */}
                         <div
                             className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${dragActive
-                                    ? 'border-indigo-500 bg-indigo-50'
-                                    : 'border-gray-300 hover:border-indigo-400'
+                                ? 'border-indigo-500 bg-indigo-50'
+                                : 'border-gray-300 hover:border-indigo-400'
                                 }`}
                             onDragEnter={handleDrag}
                             onDragLeave={handleDrag}
@@ -197,8 +218,8 @@ const UploadImage = () => {
                             type="submit"
                             disabled={loading}
                             className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white font-medium transition-all duration-200 ${loading
-                                    ? 'bg-gray-400 cursor-not-allowed'
-                                    : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                                 }`}
                         >
                             {loading ? (

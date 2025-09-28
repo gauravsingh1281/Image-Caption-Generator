@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginUser, logoutUser, registerUser, getCurrentUser } from "./authAPI";
+import axiosInstance from "../../services/axiosInstance";
 
 export const register = createAsyncThunk(
     "auth/register",
@@ -41,6 +42,32 @@ export const fetchCurrentUser = createAsyncThunk(
             return await getCurrentUser();
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || error.message || "Failed to fetch user");
+        }
+    }
+);
+
+export const uploadImageAndGenerateCaption = createAsyncThunk(
+    "auth/uploadImage",
+    async (formData, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post("/user/upload-image", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message || "Upload failed");
+        }
+    }
+);
+
+export const getUserImages = createAsyncThunk(
+    "auth/getUserImages",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get("/user/all-uploaded-img");
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message || "Failed to fetch images");
         }
     }
 );
@@ -112,7 +139,46 @@ const authSlice = createSlice({
             .addCase(fetchCurrentUser.rejected, (state) => {
                 state.loading = false;
                 state.user = null;
-
+            })
+            // upload image and generate caption
+            .addCase(uploadImageAndGenerateCaption.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(uploadImageAndGenerateCaption.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                // Add the new image to user's uploadedImage array
+                if (state.user && action.payload.imageUrl && action.payload.caption) {
+                    if (!state.user.uploadedImage) {
+                        state.user.uploadedImage = [];
+                    }
+                    state.user.uploadedImage.push({
+                        imageUrl: action.payload.imageUrl,
+                        caption: action.payload.caption,
+                    });
+                }
+            })
+            .addCase(uploadImageAndGenerateCaption.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            // get user images
+            .addCase(getUserImages.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUserImages.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                // Update user's uploadedImage array
+                if (state.user && action.payload.images) {
+                    state.user.uploadedImage = action.payload.images;
+                }
+            })
+            .addCase(getUserImages.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             })
     },
 });
