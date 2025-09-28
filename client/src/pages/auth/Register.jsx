@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { register as registerUser } from "../../features/auth/authSlice";
+import { clearError, register as registerUser } from "../../features/auth/authSlice";
 import { Link, Navigate } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Register = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -10,16 +11,23 @@ const Register = () => {
     const { loading, error, user } = useSelector((state) => state.auth);
     const [showPassword, setShowPassword] = useState(false);
 
+    // Clear errors when component mounts
+    useEffect(() => {
+        dispatch(clearError());
+    }, [dispatch]);
+
     // Redirect if user is already logged in
     if (user) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/dashboard" replace />;
     }
 
-    const handleRegisterUser = async (data) => {
+    const handleRegister = async (data) => {
         try {
             await dispatch(registerUser(data)).unwrap();
+            toast.success("User Registered Successfully.");
             reset();
         } catch (error) {
+            // Error is already handled by Redux and stored in state.error
             console.error("Registration failed:", error);
         }
     };
@@ -54,7 +62,7 @@ const Register = () => {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit(handleRegisterUser)} className="space-y-6">
+                    <form onSubmit={handleSubmit(handleRegister)} className="space-y-6">
                         {/* Email Field */}
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
