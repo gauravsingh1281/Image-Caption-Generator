@@ -1,6 +1,12 @@
+import { useNavigate } from "react-router";
+
 const Dashboard = () => {
+    const navigate = useNavigate();
     return (
-        <div>Dashboard</div>
+        <>
+            <div>Dashboard</div>
+            <button onClick={() => navigate("/uploadImage")}>Upload Image</button>
+        </>
     )
 }
 
