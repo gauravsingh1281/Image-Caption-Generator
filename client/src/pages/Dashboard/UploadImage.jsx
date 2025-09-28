@@ -4,4 +4,4 @@ const UploadImage = () => {
     )
 }
 
-export default UploadImage
+export default UploadImage;
