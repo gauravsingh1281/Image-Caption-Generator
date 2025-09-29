@@ -1,10 +1,10 @@
-import { RouterProvider } from "react-router"
-import router from "./routes/MainRoutes"
-import { useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { fetchCurrentUser } from "./features/auth/authSlice"
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { RouterProvider } from "react-router";
+import router from "./routes/mainRoutes";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCurrentUser } from "./features/auth/authSlice";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,4 +31,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;

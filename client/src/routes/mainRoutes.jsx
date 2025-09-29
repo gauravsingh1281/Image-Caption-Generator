@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router";
 import MainLayout from "../layout/MainLayout";
-import publicRoutes from "./PublicRoutes";
-import authRoutes from "./AuthRoutes";
-import appRoutes from "./AppRoutes";
+import publicRoutes from "./publicRoutes";
+import authRoutes from "./authRoutes";
+import appRoutes from "./appRoutes";
 const router = createBrowserRouter([
     {
         path: "/",
