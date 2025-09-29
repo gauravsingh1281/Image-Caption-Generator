@@ -14,7 +14,12 @@ const register = async (req, res) => {
         const token = jwt.sign({ email: createdUser.email, id: createdUser._id }, process.env.JWT_SECRET_KEY, {
             expiresIn: "3d"
         });
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
+        });
         res.status(201).json({ message: "User registered successfully.", user: createdUser });
     } catch (error) {
         res.status(500).json({ message: "An error occurred while registering the new user.", error: error.message });
@@ -31,7 +36,12 @@ const login = async (req, res) => {
         const token = jwt.sign({ email: foundUser.email, id: foundUser._id }, process.env.JWT_SECRET_KEY, {
             expiresIn: "3d"
         });
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
+        });
         res.status(200).json({ message: "User logged in successfully.", user: foundUser })
     } catch (error) {
         res.status(500).json({ message: "An error occurred while logging in the user.", error: error.message });
@@ -40,7 +50,11 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        res.clearCookie("token");
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        });
         res.status(200).json({ message: "User logged out successfully." });
 
     } catch (error) {
