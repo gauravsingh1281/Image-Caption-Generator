@@ -152,6 +152,7 @@ const Register = () => {
                                             className={`block w-full pl-10 pr-3 py-3 border ${errors.email ? 'border-red-300' : 'border-gray-300'
                                                 } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
                                             placeholder="Enter your email"
+                                            autoComplete="off"
                                             {...register("email", {
                                                 required: "Email is required",
                                                 pattern: {
@@ -183,6 +184,7 @@ const Register = () => {
                                             className={`block w-full pl-10 pr-10 py-3 border ${errors.password ? 'border-red-300' : 'border-gray-300'
                                                 } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
                                             placeholder="Enter your password"
+                                            autoComplete="off"
                                             {...register("password", {
                                                 required: "Password is required",
                                                 minLength: {
