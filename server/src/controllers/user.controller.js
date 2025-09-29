@@ -30,9 +30,10 @@ const uploadImageAndGenerateCaption = async (req, res) => {
         const imageKitResponse = await uploadFile(req.file.buffer, `userImage_${Date.now()}_${path.extname(req.file.originalname)}`);
         const userUploadedImageUrl = imageKitResponse.url;
         const imageKitFileId = imageKitResponse.fileId;
+        const { tone, language, additionalInfo } = req.body;
 
         // generate caption
-        const geminiResponse = await generateCaption(req.file);
+        const geminiResponse = await generateCaption(req.file, tone, language, additionalInfo);
         const uploadedImageCaption = geminiResponse.text;
 
         authorizedUserData.uploadedImage.push({
