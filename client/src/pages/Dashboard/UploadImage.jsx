@@ -69,7 +69,7 @@ const UploadImage = () => {
             setPreviewUrl(null);
 
             // Show redirect message and redirect to dashboard
-            toast.info('Redirecting to dashboard...', { autoClose: 1500 });
+            toast.info('Redirecting to  galary dashboard...', { autoClose: 1500 });
             setTimeout(() => {
                 navigate('/dashboard');
             }, 2000); // 2 second delay to show success message

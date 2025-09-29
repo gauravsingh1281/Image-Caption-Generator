@@ -39,7 +39,7 @@ const generateCaption = async (imagefile, tone, language, additionalInfo) => {
             systemInstruction: `You are an advanced image captioning assistant. Analyze the image carefully and respond with one short, clear caption describing it. 
             
             Guidelines:
-            - Keep captions concise but descriptive (1-2 sentences maximum)
+            - Keep captions concise but descriptive (2-3 sentences maximum)
             - Match the requested tone if specified (formal, casual, creative, humorous, etc.)
             - Respond in the requested language if specified
             - Incorporate any additional context provided by the user

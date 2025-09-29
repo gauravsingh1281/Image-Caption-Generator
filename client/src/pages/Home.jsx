@@ -125,7 +125,7 @@ const Home = () => {
                                 <div className="space-y-3 mb-4">
                                     <div className="flex gap-2">
                                         <select className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50">
-                                            <option>Creative Tone</option>
+                                            <option >Creative Tone</option>
                                         </select>
                                         <select className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50">
                                             <option>English</option>
@@ -135,6 +135,7 @@ const Home = () => {
                                         className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 resize-none"
                                         rows="2"
                                         placeholder="Add context..."
+                                        readOnly
                                     ></textarea>
                                 </div>
 
