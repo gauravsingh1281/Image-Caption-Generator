@@ -114,7 +114,9 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div>
-                                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">CaptionAi</h1>
+                                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900"><span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent block">
+                                    CaptionAI
+                                </span></h1>
                                 <p className="text-sm sm:text-base text-gray-600 mt-1">
                                     <span className="hidden sm:inline">{images.length} {images.length === 1 ? 'image' : 'images'} with AI-generated captions</span>
                                     <span className="sm:hidden">{images.length} {images.length === 1 ? 'image' : 'images'}</span>
