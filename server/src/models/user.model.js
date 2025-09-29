@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
         {
             imageUrl: String,
             caption: String,
+            fileId: String,
         }
     ],
 

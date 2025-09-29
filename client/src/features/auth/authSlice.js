@@ -72,6 +72,18 @@ export const getUserImages = createAsyncThunk(
     }
 );
 
+export const deleteImage = createAsyncThunk(
+    "auth/deleteImage",
+    async (imageId, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.delete(`/user/delete-image/${imageId}`);
+            return { ...response.data, imageId };
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message || "Failed to delete image");
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: "auth",
     initialState: {
@@ -177,6 +189,25 @@ const authSlice = createSlice({
                 }
             })
             .addCase(getUserImages.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            // delete image
+            .addCase(deleteImage.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteImage.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                // Remove the deleted image from user's uploadedImage array
+                if (state.user && state.user.uploadedImage) {
+                    state.user.uploadedImage = state.user.uploadedImage.filter(
+                        (image) => image._id !== action.payload.imageId
+                    );
+                }
+            })
+            .addCase(deleteImage.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })

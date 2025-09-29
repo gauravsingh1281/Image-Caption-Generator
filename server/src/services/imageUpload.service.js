@@ -11,4 +11,15 @@ const uploadFile = async (file, fileName) => {
     return result;
 }
 
-module.exports = uploadFile;
+const deleteFile = async (fileId) => {
+    try {
+        const result = await imagekit.deleteFile(fileId);
+        console.log(`ImageKit file deleted successfully:`, result);
+        return result;
+    } catch (error) {
+        console.error("Error deleting file from ImageKit:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+module.exports = { uploadFile, deleteFile };
