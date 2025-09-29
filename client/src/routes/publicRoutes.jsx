@@ -1,9 +1,9 @@
 import Home from "../pages/Home";
-import NotFoundPage from "../pages/NotFoundPage";
+import NotFound from "../pages/NotFound";
 
 const publicRoutes = [
     { index: true, element: <Home /> },
-    { path: "*", element: <NotFoundPage /> }
+    { path: "*", element: <NotFound /> }
 ]
 
 export default publicRoutes;
