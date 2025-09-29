@@ -10,6 +10,7 @@ const Dashboard = () => {
     const { user, loading, error } = useSelector((state) => state.auth);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedImage, setSelectedImage] = useState(null);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     // Get images from user data
     const images = user?.uploadedImage || [];
@@ -34,6 +35,29 @@ const Dashboard = () => {
         dispatch(clearError());
         fetchAllImage();
     }, [dispatch]);
+
+    // Close dropdown when clicking outside or pressing Escape
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownOpen && !event.target.closest('.dropdown-container')) {
+                setDropdownOpen(false);
+            }
+        };
+
+        const handleEscapeKey = (event) => {
+            if (event.key === 'Escape' && dropdownOpen) {
+                setDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleEscapeKey);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleEscapeKey);
+        };
+    }, [dropdownOpen]);
 
     const handleImageClick = (image) => {
         setSelectedImage(image);
@@ -81,13 +105,23 @@ const Dashboard = () => {
             <div className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-6">
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900">My Gallery</h1>
-                            <p className="text-gray-600 mt-1">
-                                {images.length} {images.length === 1 ? 'image' : 'images'} with AI-generated captions
-                            </p>
+                        <div className="flex items-center space-x-6">
+                            <div className="flex items-center space-x-2">
+                                <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+                                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h1 className="text-3xl font-bold text-gray-900">CaptionAi</h1>
+                                <p className="text-gray-600 mt-1">
+                                    {images.length} {images.length === 1 ? 'image' : 'images'} with AI-generated captions
+                                </p>
+                            </div>
                         </div>
                         <div className="flex items-center space-x-4">
+                            {/* Upload Button (Primary CTA) */}
                             <button
                                 onClick={() => navigate("/uploadImage")}
                                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2 shadow-sm"
@@ -95,17 +129,75 @@ const Dashboard = () => {
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
-                                <span>Upload New Image</span>
+                                <span className="hidden sm:inline">Upload New Image</span>
+                                <span className="sm:hidden">Upload</span>
                             </button>
-                            <button
-                                onClick={handleLogout}
-                                className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2 shadow-sm"
-                            >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                </svg>
-                                <span>Logout</span>
-                            </button>
+
+                            {/* User Dropdown Menu */}
+                            <div className="relative dropdown-container">
+                                <button
+                                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                                    className="flex items-center space-x-3 bg-gray-50 hover:bg-gray-100 px-4 py-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    aria-expanded={dropdownOpen}
+                                    aria-haspopup="true"
+                                    aria-label="User menu"
+                                >
+                                    <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    </div>
+                                    <div className="hidden sm:block text-left">
+                                        <p className="text-sm font-medium text-gray-900">Welcome back!</p>
+                                        <p className="text-xs text-gray-500 truncate max-w-32">{user?.email}</p>
+                                    </div>
+                                    <svg
+                                        className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                {/* Dropdown Menu */}
+                                {dropdownOpen && (
+                                    <div
+                                        className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                                        role="menu"
+                                        aria-label="User menu options"
+                                    >
+                                        {/* User Info Section */}
+                                        <div className="px-4 py-3 border-b border-gray-100">
+                                            <p className="text-sm font-medium text-gray-900">Signed in as</p>
+                                            <p className="text-sm text-gray-600 truncate">{user?.email}</p>
+                                            <div className="mt-2 flex items-center text-xs text-gray-500">
+                                                <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                                {images.length} {images.length === 1 ? 'image' : 'images'} uploaded
+                                            </div>
+                                        </div>
+
+                                        {/* Menu Items */}
+                                        <div className="py-1">
+                                            <button
+                                                onClick={() => {
+                                                    handleLogout();
+                                                    setDropdownOpen(false);
+                                                }}
+                                                className="flex items-center w-full px-4 py-2 text-sm text-red-700 hover:bg-red-50 hover:text-red-900 transition-colors duration-200"
+                                            >
+                                                <svg className="w-4 h-4 mr-3 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                                </svg>
+                                                Sign out
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
