@@ -49,12 +49,15 @@ const Home = () => {
             <section className="relative overflow-hidden py-12 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10"></div>
                 <div className="relative max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 xl:gap-20 items-center">
                         {/* Left Content */}
                         <div className="text-center lg:text-left">
                             <div className="mb-6">
                                 <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 mb-4">
-                                    🚀 Powered by Google Gemini AI
+                                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                    Powered by Google Gemini AI
                                 </span>
                             </div>
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
@@ -166,7 +169,10 @@ const Home = () => {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 mb-4">
-                            ✨ Advanced AI Capabilities
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
+                            Advanced AI Capabilities
                         </span>
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
                             Powerful Features That Set Us Apart
@@ -176,7 +182,7 @@ const Home = () => {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-16">
                         {/* Feature 1 - Customizable Tones */}
                         <div className="group relative p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 hover:shadow-2xl transition-all duration-300 border border-blue-100 hover:border-blue-200">
                             <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
@@ -210,8 +216,17 @@ const Home = () => {
                                 Generate captions in 10+ languages including English, Spanish, French, German, Chinese, Japanese, and more.
                             </p>
                             <div className="flex flex-wrap gap-1">
-                                {['🇺🇸 English', '🇪🇸 Spanish', '🇫🇷 French'].map((lang) => (
-                                    <span key={lang} className="px-2 py-1 bg-white/70 text-xs font-medium text-emerald-700 rounded-md">{lang}</span>
+                                {[
+                                    { name: 'English', icon: 'US' },
+                                    { name: 'Spanish', icon: 'ES' },
+                                    { name: 'French', icon: 'FR' }
+                                ].map((lang) => (
+                                    <span key={lang.name} className="px-2 py-1 bg-white/70 text-xs font-medium text-emerald-700 rounded-md flex items-center">
+                                        <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                                        </svg>
+                                        {lang.name}
+                                    </span>
                                 ))}
                                 <span className="px-2 py-1 bg-white/70 text-xs font-medium text-gray-500 rounded-md">+7 more</span>
                             </div>
@@ -302,7 +317,10 @@ const Home = () => {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 mb-4">
-                            🎯 Simple 4-Step Process
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            Simple 4-Step Process
                         </span>
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
                             From Image to Perfect Caption
@@ -314,7 +332,7 @@ const Home = () => {
 
                     <div className="relative">
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
                             {/* Step 1 */}
                             <div className="text-center group">
                                 <div className="relative mx-auto mb-6">
@@ -417,14 +435,17 @@ const Home = () => {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 mb-4">
-                            ⭐ Trusted by Content Creators
+                            <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            Trusted by Content Creators
                         </span>
                         <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
                             What Our Users Say
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                         {/* Testimonial 1 */}
                         <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
                             <div className="flex items-center mb-4">
@@ -510,7 +531,10 @@ const Home = () => {
                 <div className="relative max-w-4xl mx-auto text-center">
                     <div className="mb-8">
                         <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/20 text-white/90 backdrop-blur-sm mb-6">
-                            🎉 Join 10,000+ Happy Users
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            Join 10,000+ Happy Users
                         </span>
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                             Ready to Transform Your Images Into Stories?

@@ -104,8 +104,8 @@ const Dashboard = () => {
             {/* Header */}
             <div className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center py-6">
-                        <div className="flex items-center space-x-6">
+                    <div className="flex justify-between items-center py-4 sm:py-6">
+                        <div className="flex items-center space-x-3 sm:space-x-6">
                             <div className="flex items-center space-x-2">
                                 <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
                                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,19 +114,20 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div>
-                                <h1 className="text-3xl font-bold text-gray-900">CaptionAi</h1>
-                                <p className="text-gray-600 mt-1">
-                                    {images.length} {images.length === 1 ? 'image' : 'images'} with AI-generated captions
+                                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">CaptionAi</h1>
+                                <p className="text-sm sm:text-base text-gray-600 mt-1">
+                                    <span className="hidden sm:inline">{images.length} {images.length === 1 ? 'image' : 'images'} with AI-generated captions</span>
+                                    <span className="sm:hidden">{images.length} {images.length === 1 ? 'image' : 'images'}</span>
                                 </p>
                             </div>
                         </div>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-2 sm:space-x-4">
                             {/* Upload Button (Primary CTA) */}
                             <button
                                 onClick={() => navigate("/uploadImage")}
-                                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2 shadow-sm"
+                                className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-1 sm:space-x-2 shadow-sm text-sm sm:text-base"
                             >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
                                 <span className="hidden sm:inline">Upload New Image</span>
@@ -137,7 +138,7 @@ const Dashboard = () => {
                             <div className="relative dropdown-container">
                                 <button
                                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                                    className="flex items-center space-x-3 bg-gray-50 hover:bg-gray-100 px-4 py-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    className="flex items-center space-x-2 sm:space-x-3 bg-gray-50 hover:bg-gray-100 px-2 sm:px-4 py-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                     aria-expanded={dropdownOpen}
                                     aria-haspopup="true"
                                     aria-label="User menu"
@@ -204,11 +205,11 @@ const Dashboard = () => {
             </div>
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
                 {/* Search Bar */}
                 {images.length > 0 && (
-                    <div className="mb-8">
-                        <div className="relative max-w-md mx-auto">
+                    <div className="mb-6 sm:mb-8">
+                        <div className="relative max-w-full sm:max-w-md mx-auto">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -279,7 +280,7 @@ const Dashboard = () => {
 
                 {/* Image Grid */}
                 {!loading && filteredImages.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                         {filteredImages.map((image, idx) => (
                             <div
                                 key={idx}
@@ -333,20 +334,20 @@ const Dashboard = () => {
 
                 {/* Image Modal */}
                 {selectedImage && (
-                    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-75 flex items-center justify-center p-4">
-                        <div className="bg-white rounded-2xl max-w-4xl w-full max-h-screen overflow-hidden">
-                            <div className="flex justify-between items-center p-6 border-b">
-                                <h3 className="text-lg font-semibold text-gray-900">Image Details</h3>
-                                <div className="flex items-center space-x-2">
+                    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-75 flex items-center justify-center p-2 sm:p-4">
+                        <div className="bg-white rounded-lg sm:rounded-2xl max-w-4xl w-full max-h-screen overflow-hidden">
+                            <div className="flex justify-between items-center p-3 sm:p-6 border-b">
+                                <h3 className="text-base sm:text-lg font-semibold text-gray-900">Image Details</h3>
+                                <div className="flex items-center space-x-1 sm:space-x-2">
                                     <button
                                         onClick={() => handleDeleteImage(selectedImage._id)}
-                                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+                                        className="bg-red-600 hover:bg-red-700 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base"
                                         title="Delete image"
                                     >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
-                                        <span>Delete</span>
+                                        <span className="hidden sm:inline">Delete</span>
                                     </button>
                                     <button
                                         onClick={closeModal}
@@ -358,8 +359,8 @@ const Dashboard = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="p-6">
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div className="p-3 sm:p-6">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6">
                                     <div>
                                         <img
                                             src={selectedImage.imageUrl}

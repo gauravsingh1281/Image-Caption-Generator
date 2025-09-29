@@ -43,20 +43,27 @@ const Login = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">CaptionAI</span>
+                            <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">CaptionAI</span>
                         </Link>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-2 sm:space-x-4">
                             <Link
                                 to="/register"
-                                className="text-gray-600 hover:text-indigo-600 font-medium transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-indigo-50"
+                                className="hidden sm:block text-gray-600 hover:text-indigo-600 font-medium transition-colors duration-200 px-2 sm:px-4 py-2 rounded-lg hover:bg-indigo-50"
                             >
                                 Need an account?
                             </Link>
                             <Link
-                                to="/"
-                                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
+                                to="/register"
+                                className="sm:hidden text-gray-600 hover:text-indigo-600 font-medium transition-colors duration-200 px-2 py-2 rounded-lg hover:bg-indigo-50 text-sm"
                             >
-                                Back to Home
+                                Sign Up
+                            </Link>
+                            <Link
+                                to="/"
+                                className="bg-gray-600 hover:bg-gray-700 text-white px-2 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm sm:text-base"
+                            >
+                                <span className="hidden sm:inline">Back to Home</span>
+                                <span className="sm:hidden">Home</span>
                             </Link>
                         </div>
                     </div>
@@ -73,13 +80,13 @@ const Login = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </div>
-                        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-                            Welcome Back to
+                        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                            <span className="block sm:inline">Welcome Back to</span>
                             <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent block">
                                 CaptionAI
                             </span>
                         </h1>
-                        <p className="text-lg text-gray-600 max-w-md mx-auto">
+                        <p className="text-sm sm:text-lg text-gray-600 max-w-md mx-auto px-4 sm:px-0">
                             Sign in to continue creating personalized, AI-generated captions for your images
                         </p>
 
@@ -103,17 +110,17 @@ const Login = () => {
                     {/* Form Section */}
                     <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
                         {/* Form Header */}
-                        <div className="bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 px-8 py-6 border-b border-gray-100">
-                            <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-                                <svg className="w-6 h-6 text-indigo-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 px-4 sm:px-8 py-4 sm:py-6 border-b border-gray-100">
+                            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center">
+                                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600 mr-2 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                                 </svg>
                                 Sign In to Your Account
                             </h2>
-                            <p className="text-gray-600 mt-2">Access your personal AI caption gallery</p>
+                            <p className="text-gray-600 mt-2 text-sm sm:text-base">Access your personal AI caption gallery</p>
                         </div>
 
-                        <div className="p-8 space-y-6">
+                        <div className="p-4 sm:p-8 space-y-6">
                             {/* Error Alert */}
                             {error && (
                                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">

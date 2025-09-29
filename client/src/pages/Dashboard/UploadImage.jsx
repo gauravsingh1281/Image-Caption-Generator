@@ -146,7 +146,10 @@ const UploadImage = () => {
                 <div className="relative max-w-4xl mx-auto text-center">
                     <div className="mb-6">
                         <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 mb-4">
-                            🚀 Powered by Google Gemini AI
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Powered by Google Gemini AI
                         </span>
                     </div>
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
@@ -246,7 +249,7 @@ const UploadImage = () => {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                     {/* Tone Selection */}
                                     <div className="space-y-2">
                                         <label htmlFor="tone" className="flex items-center text-sm font-bold text-gray-900">
@@ -259,13 +262,13 @@ const UploadImage = () => {
                                             {...register("tone")}
                                             className="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white transition-all duration-200 hover:border-indigo-300"
                                         >
-                                            <option value="neutral">🎯 Neutral</option>
-                                            <option value="formal">👔 Formal</option>
-                                            <option value="casual">😊 Casual</option>
-                                            <option value="creative">🎨 Creative</option>
-                                            <option value="humorous">😄 Humorous</option>
-                                            <option value="professional">💼 Professional</option>
-                                            <option value="poetic">🌟 Poetic</option>
+                                            <option value="neutral">Neutral</option>
+                                            <option value="formal">Formal</option>
+                                            <option value="casual">Casual</option>
+                                            <option value="creative">Creative</option>
+                                            <option value="humorous">Humorous</option>
+                                            <option value="professional">Professional</option>
+                                            <option value="poetic">Poetic</option>
                                         </select>
                                     </div>
 
@@ -281,16 +284,16 @@ const UploadImage = () => {
                                             {...register("language")}
                                             className="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white transition-all duration-200 hover:border-indigo-300"
                                         >
-                                            <option value="english">🇺🇸 English</option>
-                                            <option value="spanish">🇪🇸 Spanish</option>
-                                            <option value="french">🇫🇷 French</option>
-                                            <option value="german">🇩🇪 German</option>
-                                            <option value="italian">🇮🇹 Italian</option>
-                                            <option value="portuguese">🇵🇹 Portuguese</option>
-                                            <option value="chinese">🇨🇳 Chinese</option>
-                                            <option value="japanese">🇯🇵 Japanese</option>
-                                            <option value="korean">🇰🇷 Korean</option>
-                                            <option value="hindi">🇮🇳 Hindi</option>
+                                            <option value="english">English</option>
+                                            <option value="spanish">Spanish</option>
+                                            <option value="french">French</option>
+                                            <option value="german">German</option>
+                                            <option value="italian">Italian</option>
+                                            <option value="portuguese">Portuguese</option>
+                                            <option value="chinese">Chinese</option>
+                                            <option value="japanese">Japanese</option>
+                                            <option value="korean">Korean</option>
+                                            <option value="hindi">Hindi</option>
                                         </select>
                                     </div>
                                 </div>
@@ -315,7 +318,12 @@ const UploadImage = () => {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                         <div>
-                                            <p className="mb-1">💡 <strong>Pro Tips:</strong></p>
+                                            <p className="mb-1 flex items-center">
+                                                <svg className="w-4 h-4 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+                                                <strong>Pro Tips:</strong>
+                                            </p>
                                             <ul className="space-y-1 list-disc list-inside ml-2">
                                                 <li>"For social media" → More engaging style</li>
                                                 <li>"Professional portfolio" → Formal description</li>
@@ -447,24 +455,40 @@ const UploadImage = () => {
                     </div>
 
                     {/* Feature Info */}
-                    <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                    <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
                         <div className="bg-white rounded-lg p-4 shadow-sm">
-                            <div className="text-indigo-600 text-2xl mb-2">🤖</div>
+                            <div className="flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-lg mx-auto mb-3">
+                                <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </div>
                             <h3 className="font-medium text-gray-900">AI Powered</h3>
                             <p className="text-sm text-gray-600">Advanced Gemini AI</p>
                         </div>
                         <div className="bg-white rounded-lg p-4 shadow-sm">
-                            <div className="text-indigo-600 text-2xl mb-2">🎨</div>
+                            <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-lg mx-auto mb-3">
+                                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                                </svg>
+                            </div>
                             <h3 className="font-medium text-gray-900">Customizable Tone</h3>
                             <p className="text-sm text-gray-600">7 different styles</p>
                         </div>
                         <div className="bg-white rounded-lg p-4 shadow-sm">
-                            <div className="text-indigo-600 text-2xl mb-2">🌍</div>
+                            <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mx-auto mb-3">
+                                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                                </svg>
+                            </div>
                             <h3 className="font-medium text-gray-900">Multi-Language</h3>
                             <p className="text-sm text-gray-600">10+ languages supported</p>
                         </div>
                         <div className="bg-white rounded-lg p-4 shadow-sm">
-                            <div className="text-indigo-600 text-2xl mb-2">🔒</div>
+                            <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-lg mx-auto mb-3">
+                                <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </div>
                             <h3 className="font-medium text-gray-900">Secure</h3>
                             <p className="text-sm text-gray-600">Your images are safe</p>
                         </div>
