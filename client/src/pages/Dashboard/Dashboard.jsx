@@ -11,6 +11,7 @@ const Dashboard = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedImage, setSelectedImage] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [deleteModal, setDeleteModal] = useState({ isOpen: false, imageId: null, imageUrl: null });
 
     // Get images from user data
     const images = user?.uploadedImage || [];
@@ -45,8 +46,12 @@ const Dashboard = () => {
         };
 
         const handleEscapeKey = (event) => {
-            if (event.key === 'Escape' && dropdownOpen) {
-                setDropdownOpen(false);
+            if (event.key === 'Escape') {
+                if (deleteModal.isOpen) {
+                    cancelDelete();
+                } else if (dropdownOpen) {
+                    setDropdownOpen(false);
+                }
             }
         };
 
@@ -57,7 +62,18 @@ const Dashboard = () => {
             document.removeEventListener('mousedown', handleClickOutside);
             document.removeEventListener('keydown', handleEscapeKey);
         };
-    }, [dropdownOpen]);
+    }, [dropdownOpen, deleteModal.isOpen]);
+
+    // Focus management for delete modal
+    useEffect(() => {
+        if (deleteModal.isOpen) {
+            // Focus the cancel button when modal opens for better accessibility
+            const cancelButton = document.querySelector('[data-modal-cancel]');
+            if (cancelButton) {
+                cancelButton.focus();
+            }
+        }
+    }, [deleteModal.isOpen]);
 
     const handleImageClick = (image) => {
         setSelectedImage(image);
@@ -78,25 +94,35 @@ const Dashboard = () => {
         }
     };
 
-    const handleDeleteImage = async (imageId) => {
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete this image? This action cannot be undone."
-        );
+    const handleDeleteImage = (imageId, imageUrl = null) => {
+        const image = images.find(img => img._id === imageId);
+        setDeleteModal({
+            isOpen: true,
+            imageId,
+            imageUrl: imageUrl || image?.imageUrl || null
+        });
+    };
 
-        if (confirmDelete) {
-            try {
-                await dispatch(deleteImage(imageId)).unwrap();
-                toast.success("Image deleted successfully!");
+    const confirmDeleteImage = async () => {
+        try {
+            await dispatch(deleteImage(deleteModal.imageId)).unwrap();
+            toast.success("Image deleted successfully!");
 
-                // Close modal if the deleted image was being viewed
-                if (selectedImage && selectedImage._id === imageId) {
-                    setSelectedImage(null);
-                }
-            } catch (error) {
-                toast.error(error || "Failed to delete image");
-                console.log("Delete error:", error);
+            // Close modal if the deleted image was being viewed
+            if (selectedImage && selectedImage._id === deleteModal.imageId) {
+                setSelectedImage(null);
             }
+
+            // Close delete modal
+            setDeleteModal({ isOpen: false, imageId: null, imageUrl: null });
+        } catch (error) {
+            toast.error(error || "Failed to delete image");
+            console.log("Delete error:", error);
         }
+    };
+
+    const cancelDelete = () => {
+        setDeleteModal({ isOpen: false, imageId: null, imageUrl: null });
     };
 
     return (
@@ -292,7 +318,7 @@ const Dashboard = () => {
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        handleDeleteImage(image._id);
+                                        handleDeleteImage(image._id, image.imageUrl);
                                     }}
                                     className="absolute top-2 right-2 z-10 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg"
                                     title="Delete image"
@@ -342,7 +368,7 @@ const Dashboard = () => {
                                 <h3 className="text-base sm:text-lg font-semibold text-gray-900">Image Details</h3>
                                 <div className="flex items-center space-x-1 sm:space-x-2">
                                     <button
-                                        onClick={() => handleDeleteImage(selectedImage._id)}
+                                        onClick={() => handleDeleteImage(selectedImage._id, selectedImage.imageUrl)}
                                         className="bg-red-600 hover:bg-red-700 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base"
                                         title="Delete image"
                                     >
@@ -378,6 +404,88 @@ const Dashboard = () => {
                                             </p>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Custom Delete Confirmation Modal */}
+                {deleteModal.isOpen && (
+                    <div className="fixed inset-0 z-50 overflow-y-auto">
+                        {/* Backdrop with gradient */}
+                        <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                            <div
+                                className="fixed inset-0 transition-opacity bg-gradient-to-br from-black/40 via-indigo-900/20 to-purple-900/30 backdrop-blur-sm"
+                                onClick={cancelDelete}
+                            ></div>
+
+                            {/* Center modal on mobile, align with screen on larger screens */}
+                            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                            {/* Modal panel with enhanced design */}
+                            <div className="inline-block w-full px-4 pt-6 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-8 max-w-sm mx-auto">
+                                <div className="sm:flex sm:items-start">
+                                    {/* Enhanced Icon with gradient */}
+                                    <div className="flex items-center justify-center flex-shrink-0 w-14 h-14 mx-auto bg-gradient-to-br from-red-100 to-rose-200 rounded-2xl shadow-lg sm:mx-0 sm:h-12 sm:w-12">
+                                        <svg className="w-6 h-6 sm:w-7 sm:h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </div>
+
+                                    {/* Content with enhanced typography */}
+                                    <div className="mt-4 text-center sm:mt-0 sm:ml-6 sm:text-left w-full">
+                                        <h3 className="text-lg font-bold leading-6 sm:text-xl bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                                            Delete Image?
+                                        </h3>
+                                        <div className="mt-3">
+                                            <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+                                                This action cannot be undone. The image and its AI-generated caption will be permanently removed from your collection.
+                                            </p>
+
+                                            {/* Enhanced Image preview */}
+                                            {deleteModal.imageUrl && (
+                                                <div className="mt-4 mb-6">
+                                                    <div className="relative w-full h-28 sm:h-36 md:h-44 rounded-2xl overflow-hidden border-2 border-gradient-to-br from-gray-200 to-gray-300 shadow-inner">
+                                                        <img
+                                                            src={deleteModal.imageUrl}
+                                                            alt="Image to delete"
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-red-500/20 via-transparent to-transparent"></div>
+                                                        <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium shadow-lg">
+                                                            Will be deleted
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Enhanced Actions with gradient buttons */}
+                                <div className="mt-6 sm:mt-5 sm:flex sm:flex-row-reverse gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={confirmDeleteImage}
+                                        className="inline-flex justify-center items-center w-full px-6 py-3 text-base font-semibold text-white bg-gradient-to-r from-red-600 to-rose-600 border border-transparent rounded-xl shadow-lg hover:from-red-700 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm transition-all duration-300 transform hover:scale-105"
+                                    >
+                                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        Yes, Delete
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={cancelDelete}
+                                        data-modal-cancel
+                                        className="inline-flex justify-center items-center w-full px-6 py-3 mt-3 text-base font-semibold text-gray-700 bg-white border-2 border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:border-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm transition-all duration-300 transform hover:scale-105"
+                                    >
+                                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        Cancel
+                                    </button>
                                 </div>
                             </div>
                         </div>
